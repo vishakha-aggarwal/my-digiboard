@@ -1,0 +1,140 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    overflow: hidden;
+}
+
+canvas{
+    z-index: 0;
+    position: absolute;
+}
+.container{
+    z-index: 5;
+    color: white;
+    position:absolute;
+    width: 80px;
+    height: 100vh;
+    border: 2px solid rgb(16, 0, 106);
+    box-shadow: blue 1px 1px 10px 1px;
+    align-items: center;
+    display: grid;
+}
+
+.container img{
+    z-index: 5;
+    margin: 0px;
+    margin-left: 20px;
+    height: 43px;
+    width: 43px;
+    filter: invert();
+}
+
+input.pencil{
+    z-index: 5;
+    position: fixed;
+    display: none;
+    margin-top: 20px;
+    margin-left: 90px;
+}
+input.eraser{
+    z-index: 5;
+    display: none;
+    position: fixed;
+    margin-top: 70px;
+    margin-left: 90px;
+}
+input.line{
+    z-index: 5;
+    display: none;
+    position: fixed;
+    margin-top: 130px;
+    margin-left: 90px;
+}
+input.rectangle{
+    z-index: 5;
+    display: none;
+    position: fixed;
+    margin-top: 190px;
+    margin-left: 90px;
+}
+
+input.color{
+    z-index: 5;
+    display: none;
+    position: fixed;
+    margin-top: 240px;
+    margin-left: 90px;
+    width:60px;
+    height: 40px;
+    border: none;
+}
+
+.template{
+    /* z-index: 10; */
+    display:block;
+    position: absolute;
+    margin: 100px;
+    box-shadow: 7px 7px 15px 1px #9ea3ff;
+}
+
+.nav{
+    width: 200px;    
+    height: 25px;    
+    border: 2px solid rgb(0, 0, 99);
+    border-right: none;
+    border-radius: 3px;
+    background-color: #b1a6ecf9;
+}
+
+textarea{
+    width:250px;
+    height: 200px; 
+    border: 1px solid blue;
+    border-radius: 5px;
+    background-color: #e5e5e5f9;
+    font-size: 20px;
+    text-decoration: none;
+    resize: none;
+}
+
+.buttons{
+    background-color: #b1a6ecf9;
+    display: flex;border: 2px solid rgb(0, 0, 99);
+    border-left: none;
+    border-radius: 3px;
+}
+button{
+    /* float: right; */
+    margin-right: 5px;
+    margin-top: 3px;
+    height: 10px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.755);
+    border-radius: 50%;
+}
+
+.notesImg{
+    display: none;
+    width:250px;
+    height: 200px; 
+    border: 1px solid blue;
+    border-radius: 5px;
+}
+
+.header{
+    display: flex;
+}
+
+.navbar{
+    background-color: aqua;
+    width: 200px;
+}
+
+.btns{
+    display: flex;
+    background-color: aqua;
+}

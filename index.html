@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Digital Board</title>
+</head>
+<body bgcolor="black">
+    <div class="container">
+        <img src = "images/pencil.png" class = "pencil">
+        <img src = "images/eraser.png" class = "eraser">
+        <img src = "images/line.png" class = "line">
+        <img src = "images/rectangle.jpg" class = "rectangle">
+        <img src = "images/color.png" class = "color">
+        <img src = "images/undo.png" class = "undo">
+        <img src = "images/redo.jpg" class = "redo">
+        <img src = "images/notes.png" class = "notes">
+        <img src = "images/download.png" class = "download">
+        <img src = "images/upload.png" class = "upload">
+        <img src = "images/delete.png" class = "delete">
+    </div>
+    <input type="range" min="1" max="10" value="3" class = "pencil">
+    <input type="range"  min="1" max="30" value="3" class = "eraser">
+    <input type="range"  min="1" max="30" value="3"class = "line">
+    <input type="range"  min="1" max="30" value="3" class = "rectangle">
+    <input type="color" value="#000080" class = "color">
+    <!-- <div class = "template" draggable="true">
+        <div class = "header">
+            <div class="nav"></div>
+            <div class = "buttons">
+                <button style="background-color: rgba(255, 0, 51, 0.747);" class = "del"></button>
+                <button style="background-color: rgb(255, 204, 74);" class = "minimize"></button>
+            </div>
+        </div>
+        <textarea class = "text" spellcheck="false"></textarea>
+        <img class = "notesImg">
+    </div> -->
+    <canvas></canvas>
+    <script src="index.js"></script>
+</body>
+</html>
