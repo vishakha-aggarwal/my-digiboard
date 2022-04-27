@@ -196,6 +196,7 @@ notes.addEventListener("click", ()=>{
         body.removeChild(template);
     })
     
+    nav.ontouchstart = (e)=>dragAndDrop(nav, template, e);
     nav.onmousedown = (e)=>dragAndDrop(nav, template, e);
     nav.ondragstart = function() {
         return false;
@@ -219,7 +220,11 @@ function dragAndDrop(base, element, event){
     }
     
     document.addEventListener('mousemove', onMouseMove);
-    
+    document.addEventListener('touchmove', onMouseMove);
+    base.ontouchend = function(){
+        document.removeEventListener('touchmove', onMouseMove);
+        base.ontouchend = null;
+    }
     base.onmouseup = function() {
         document.removeEventListener('mousemove', onMouseMove);
         base.onmouseup = null;
@@ -282,6 +287,7 @@ upload.addEventListener("click", ()=>{
             body.removeChild(template);
         })
         
+        nav.ontouchstart = (e)=>dragAndDrop(nav, template, e);
         nav.onmousedown = (e)=>dragAndDrop(nav, template, e);
         nav.ondragstart = function() {
             return false;
@@ -296,8 +302,7 @@ deleteDrawing.addEventListener("click", ()=>{
     tool.clearRect(0, 0, canvasBoard.width, canvasBoard.height);
 })
 
-body.addEventListener("mousedown", function(e){
-    
+function down(e){
     if(cTool == null)
         return;
     if(cTool == "line")
@@ -352,10 +357,9 @@ body.addEventListener("mousedown", function(e){
         tool.lineWidth = width;
         tool.moveTo(ix, iy);
     }
-})
+}
 
-body.addEventListener("mousemove", function(e){
-
+function move(e){
     if(drawing == false || (cTool != "pencil" && cTool != "eraser"))
         return;
     
@@ -371,10 +375,25 @@ body.addEventListener("mousemove", function(e){
     tool.stroke();
     ix = fx;
     iy = fy;
+}
+
+body.addEventListener("mousedown", function(e){
+    down(e);
 })
 
-body.addEventListener("mouseup", function(e){
+body.addEventListener("touchstart", function(e){
+    down(e);
+})
 
+body.addEventListener("mousemove", function(e){
+    move(e);
+})
+
+body.addEventListener("touchmove", function(e){
+    move(e);
+})
+
+function up(e){
     if(cTool == null || drawing == false)
         return;
    
@@ -432,5 +451,13 @@ body.addEventListener("mouseup", function(e){
         // a.download = "board.jpg";
         // a.click();
     }
-    console.log(dataList.length);
+    // console.log(dataList.length);
+}
+
+body.addEventListener("mouseup", function(e){
+    up(e);
+})
+
+body.addEventListener("touchend", function(e){
+    up(e);
 })
