@@ -215,7 +215,6 @@ function dragAndDrop(base, element, event){
     moveAt(event.pageX, event.pageY);
     
     function onMouseMove(event) {
-        console.log(event.pageX, event.pageY);
         moveAt(event.pageX, event.pageY);
     }
 
@@ -226,7 +225,6 @@ function dragAndDrop(base, element, event){
             y = `${touch.pageY}`;
         })
         moveAt(x, y);
-        console.log(x, y);
     }
     
     document.addEventListener('mousemove', onMouseMove);
@@ -370,9 +368,6 @@ function move(e){
     if(cTool == "eraser")
         col = "black";
 
-    // fx = e.clientX - boardLeft;
-    // fy = e.clientY - boardTop;
-    // console.log(ix, iy, fx, fy);
     tool.moveTo(ix, iy);
     tool.lineTo(fx, fy);
     tool.strokeStyle = col;
