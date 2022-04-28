@@ -123,7 +123,6 @@ undo.addEventListener("click", ()=>{
         let img = new Image();
         img.src = dataList[index];
         img.onload = function() { 
-            console.log("loaded");
             tool.clearRect(0, 0, canvasBoard.width, canvasBoard.height);
             tool.drawImage(img, 0, 0, canvasBoard.width, canvasBoard.height); 
         };
@@ -147,7 +146,6 @@ redo.addEventListener("click", ()=>{
         let img = new Image();
         img.src = dataList[index];
         img.onload = function() { 
-            console.log("loaded");
             tool.clearRect(0, 0, canvasBoard.width, canvasBoard.height);
             tool.drawImage(img, 0, 0, canvasBoard.width, canvasBoard.height); 
         };
@@ -198,6 +196,7 @@ notes.addEventListener("click", ()=>{
     
     nav.ontouchstart = (e)=>dragAndDrop(nav, template, e);
     nav.onmousedown = (e)=>dragAndDrop(nav, template, e);
+
     nav.ondragstart = function() {
         return false;
     };
@@ -216,13 +215,24 @@ function dragAndDrop(base, element, event){
     moveAt(event.pageX, event.pageY);
     
     function onMouseMove(event) {
+        console.log(event.pageX, event.pageY);
         moveAt(event.pageX, event.pageY);
+    }
+
+    function onTouchMove(event) {
+        let x,y;
+        ;[...event.changedTouches].forEach(touch => {
+            x = `${touch.pageX}`;
+            y = `${touch.pageY}`;
+        })
+        moveAt(x, y);
+        console.log(x, y);
     }
     
     document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('touchmove', onMouseMove);
+    document.addEventListener('touchmove', onTouchMove);
     base.ontouchend = function(){
-        document.removeEventListener('touchmove', onMouseMove);
+        document.removeEventListener('touchmove', onTouchMove);
         base.ontouchend = null;
     }
     base.onmouseup = function() {
@@ -289,10 +299,10 @@ upload.addEventListener("click", ()=>{
         
         nav.ontouchstart = (e)=>dragAndDrop(nav, template, e);
         nav.onmousedown = (e)=>dragAndDrop(nav, template, e);
+        
         nav.ondragstart = function() {
             return false;
         };
-
     })
 })
 
@@ -311,8 +321,7 @@ function down(e){
         line.style.border = "2px solid black";
         let slider = document.querySelector("input.line");
         drawing = true;
-        ix = e.clientX - boardLeft;
-        iy = e.clientY - boardTop;
+        console.log(ix);
         tool.beginPath();
         width = slider.value;
         tool.lineWidth = width;
@@ -324,8 +333,6 @@ function down(e){
         rectangle.style.border = "2px solid black";
         let slider = document.querySelector("input.rectangle");
         drawing = true;
-        ix = e.clientX - boardLeft;
-        iy = e.clientY - boardTop;
         tool.beginPath();
         width = slider.value;
         tool.lineWidth = width;
@@ -337,8 +344,6 @@ function down(e){
         pencil.style.border = "2px solid black";
         let slider = document.querySelector("input.pencil");
         drawing = true;
-        ix = e.clientX - boardLeft;
-        iy = e.clientY - boardTop;
         tool.beginPath();
         width = slider.value;
         tool.lineWidth = width;
@@ -350,8 +355,6 @@ function down(e){
         eraser.style.border = "2px solid black";
         let slider = document.querySelector("input.eraser");
         drawing = true;
-        ix = e.clientX - boardLeft;
-        iy = e.clientY - boardTop;
         tool.beginPath();
         width = slider.value;
         tool.lineWidth = width;
@@ -362,13 +365,14 @@ function down(e){
 function move(e){
     if(drawing == false || (cTool != "pencil" && cTool != "eraser"))
         return;
-    
+
     let col = color;
     if(cTool == "eraser")
         col = "black";
 
-    fx = e.clientX - boardLeft;
-    fy = e.clientY - boardTop;
+    // fx = e.clientX - boardLeft;
+    // fy = e.clientY - boardTop;
+    // console.log(ix, iy, fx, fy);
     tool.moveTo(ix, iy);
     tool.lineTo(fx, fy);
     tool.strokeStyle = col;
@@ -377,31 +381,12 @@ function move(e){
     iy = fy;
 }
 
-body.addEventListener("mousedown", function(e){
-    down(e);
-})
-
-body.addEventListener("touchstart", function(e){
-    down(e);
-})
-
-body.addEventListener("mousemove", function(e){
-    move(e);
-})
-
-body.addEventListener("touchmove", function(e){
-    move(e);
-})
-
 function up(e){
     if(cTool == null || drawing == false)
         return;
    
     if(cTool == "line") 
     {
-        fx = e.clientX - boardLeft;
-        fy = e.clientY - boardTop;
-        
         tool.lineTo(fx, fy);
         tool.strokeStyle = color;
         tool.stroke();
@@ -409,9 +394,6 @@ function up(e){
     }
     if(cTool == "rectangle")
     {
-        fx = e.clientX - boardLeft;
-        fy = e.clientY - boardTop;
-        
         let l = fx - ix;
         let b = fy - iy;
         tool.strokeStyle = color;
@@ -420,9 +402,6 @@ function up(e){
     }
     if(cTool == "pencil")
     {
-        fx = e.clientX - boardLeft;
-        fy = e.clientY - boardTop;
-
         tool.lineTo(fx, fy);
         tool.strokeStyle = color;
         tool.stroke();
@@ -430,9 +409,6 @@ function up(e){
     }
     if(cTool == "eraser")
     {
-        fx = e.clientX - boardLeft;
-        fy = e.clientY - boardTop;
-        
         tool.lineTo(fx, fy);
         tool.strokeStyle = "black";
         tool.stroke();
@@ -446,18 +422,47 @@ function up(e){
         if(index != 0)
             dataList = dataList.slice(0, index);
         dataList.push(canvasBoard.toDataURL());
-        // let a = document.createElement("a");
-        // a.href = canvasBoard.toDataURL();
-        // a.download = "board.jpg";
-        // a.click();
     }
-    // console.log(dataList.length);
 }
 
+body.addEventListener("mousedown", function(e){
+    ix = e.clientX - boardLeft;
+    iy = e.clientY - boardTop;
+    down(e);
+})
+
+body.addEventListener("touchstart", function(e){
+    ;[...e.changedTouches].forEach(touch => {
+        ix = `${touch.pageX}`;
+        iy = `${touch.pageY}`;
+        down(e);
+    })
+})
+
+body.addEventListener("mousemove", function(e){
+    fx = e.clientX - boardLeft;
+    fy = e.clientY - boardTop;
+    move(e);
+})
+
+body.addEventListener("touchmove", function(e){
+    ;[...e.changedTouches].forEach(touch => {
+        fx = `${touch.pageX}`;
+        fy = `${touch.pageY}`;
+        move(e);
+    })
+})
+
 body.addEventListener("mouseup", function(e){
+    fx = e.clientX - boardLeft;
+    fy = e.clientY - boardTop;
     up(e);
 })
 
 body.addEventListener("touchend", function(e){
-    up(e);
+    ;[...e.changedTouches].forEach(touch => {
+        fx = `${touch.pageX}`;
+        fy = `${touch.pageY}`;
+        up(e);
+    })
 })
